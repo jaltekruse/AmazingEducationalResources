@@ -134,14 +134,44 @@
 				<div class="inner">
                                     <h2>Have Suggestions for Materials to Add?</h2>
                                     <h3>
-					 <div class="6u 12u$(small)">
+                                        Subject <div class="select-wrapper" style="display:inline-block">
+                                            <select name="subject" id="demo-category">
+						<option value=""></option>
+						<option value="Math">Math</option>
+						<option value="Reading">Reading</option>
+						<option value="Science">Science</option>
+						<option value="Writing">Writing</option>
+						<option value="Social Studies">Social Studies</option>
+						<option value="Fine Arts">Fine Arts</option>
+						<option value="ESL">ESL</option>
+						<option value="Foreign Language">Foreign Language</option>
+						<option value="Physical Education">Physical Education</option>
+						<option value="Early Childhood">Early Childhood</option>
+						<option value="Special Education">Special Education</option>
+						<option value="STEM">STEM</option>
+						<option value="Intervention Resources">Intervention Resources</option>
+						<option value="Counseling">Counseling</option>
+					    </select>
+					</div>&nbsp;&nbsp;
+                                        Level <div class="select-wrapper" style="display:inline-block">
+                                            <select name="subject" id="demo-category">
+						<option value=""></option>
+						<option value="Early Childhood">Early Childhood</option>
+						<option value="K - 2nd">K - 2nd</option>
+						<option value="3rd - 5th">3rd - 5th</option>
+						<option value="High School">High School</option>
+						<option value="Higher Education">Higher Education</option>
+					    </select>
+					</div>
+					 <div style="margin-left:20px;display:inline-block">
 					       <input type="checkbox" name="alwaysFree"
 							id="alwaysFree" onchange="onLoad()"/>
 					       <label for="alwaysFree">Always Free</label>
-					</div>
-
-                                        <input type="text" id="searchBox" onchange="onLoad()"/>
+					</div>&nbsp;&nbsp;
                                         <input type="submit" value="Search" onsubmit="onLoad()"/>
+
+                                        <input type="text" id="searchBox" style="display:inline-block"
+					       onchange="onLoad()"/>
                                     </h3>
                                 </div>
 				<div class="inner">
