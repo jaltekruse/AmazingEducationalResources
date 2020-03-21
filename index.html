@@ -28,6 +28,7 @@
                             var topMatches = [];
                             var otherMatches = [];
                             if (searchVal.trim() != "" || alwaysFree || subject || level) {
+                                searchTerms = searchVal.split(" ");
                                 allResources.data.map(function(resource, index) {
 				    if (alwaysFree &&
 					    !(resource["Free Service Offered"] &&
@@ -60,9 +61,11 @@
                                         var words = allText.split(" ");
                                         var matches = false;
                                         words.map(function(word, index) {
-                                            if (word.startsWith(searchVal)) {
-                                                matches = true;
-                                            }
+                                            searchTerms.map(function(term, index) {
+                                                if (word.startsWith(term)) {
+                                                    matches = true;
+                                                }
+                                            });
                                         });
                                         if (matches) {
                                             otherMatches.push(resource);
