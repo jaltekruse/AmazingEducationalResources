@@ -23,7 +23,7 @@
                             var level = document.getElementById("levelValue").value;	
 			    console.log(subject);
 			    console.log(level);
-                            searchVal = searchVal.toLowerCase().trim();
+                            searchVal = searchVal.toLowerCase().trim() + " " + subject.toLowerCase();
                             var allMatching;
                             var topMatches = [];
                             var otherMatches = [];
@@ -36,12 +36,17 @@
 						    .toLowerCase().includes("always free"))) {
 					return;
 				    }
+                                    // doing this instead by concatenating subject with search term
+                                    // enables finding products with a subject in the description but
+                                    // not the explicit field filled out
+                                    /*
 				    if (subject &&
 					    !(resource["Category/Subject"] &&
 						resource["Category/Subject"]
 						    .toLowerCase().includes(subject.toLowerCase()))) {
 					return;
 				    }
+                                    */
 				    if (level &&
 					    !(resource["Grade/Age Group"] &&
 						resource["Grade/Age Group"]
@@ -54,7 +59,10 @@
                                         resource["Company"] + " " +
                                         resource["Free Service Offered"];
                                     // first do a check for the whole search string
-                                    allText = allText.toLowerCase();
+                                    allText = allText.toLowerCase()
+                                        .replace(",", " ")
+                                        .replace("/", " ")
+                                        .replace(";", " ");
                                     if (allText.includes(searchVal)) {
                                         topMatches.push(resource);
                                     } else {
