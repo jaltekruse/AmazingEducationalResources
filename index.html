@@ -11,6 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
                 <script type="text/javascript" src="papaparse.min.js"></script>
+                <meta name="viewport" content="width=624">
                 <script type="text/javascript">
                     function onLoad() {
                         var setCurrentList = function() {
@@ -73,7 +74,17 @@
                                 allMatching = allResources.data;
                             }
                             allMatching.map(function(resource, index) {
-                                html += "<a href=\"" + resource["Link"] + "\"><h2>" + resource["Company"] + "</h2></a>";
+                                if (!resource["Link"]) {
+                                    return;
+                                }
+                                if (! (resource["Link"].startsWith("http://") ||
+                                       resource["Link"].startsWith("https://"))
+                                ) {
+                                    resource["Link"] = "http://" + resource["Link"];
+                                }
+                                html += "<a href=\"" + resource["Link"]
+                                    + "\" style=\"max-width:100%;text-overflow: ellipsis\"><h2>" 
+                                    + resource["Company"] + "</h2></a>";
                                 if (resource["Category/Subject"] != undefined && 
                                         resource["Category/Subject"].trim() != "") {
                                     html += "<b>Category/Subject</b> &nbsp;&nbsp" + 
@@ -85,8 +96,6 @@
                                                 resource["Grade/Age Group"] + "<br />";
                                 }
                                 html += resource["Description"] + "<br />";
-                                html += "<b>Link</b> &nbsp;&nbsp" + 
-                                    "<a href=\"" + resource["Link"] + "\">" + resource["Link"] + "</a><br />"; 
                                 html += "<b>Free Service Offered</b> &nbsp;&nbsp" + 
                                     resource["Free Service Offered"] + "<br /><br />";
                             });
@@ -196,8 +205,8 @@
                                         <input type="submit" value="Search" onsubmit="onLoad()" style="display:inline-block"/>
                                     </h3>
                                 </div>
-				<div class="inner">
-					<p id="resourceList">Loading List of Resources...</p>
+				<div class="inner" id="resourceList">
+					Loading List of Resources...
 				</div>
 			</section>
 		<!-- Footer -->
