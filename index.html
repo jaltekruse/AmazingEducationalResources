@@ -10,8 +10,79 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+                <script type="text/javascript" src="papaparse.min.js"></script>
+                <script type="text/javascript">
+                    function onLoad() {
+                        var setCurrentList = function() {
+                            var element = document.getElementById("resourceList");
+                            var html = "";
+                            var searchVal = document.getElementById("searchBox").value;
+                            allResources.data.map(function(resource, index) {
+                                if (searchVal.trim() != "") {
+                                    var allText = resource["Category/Subject"] + " " +
+                                        resource["Grade/Age Group"] + " " +
+                                        resource["Description"] + " " +
+                                        resource["Company"] + " " +
+                                        resource["Free Service Offered"];
+                                    console.log(allText);
+                                    var words = allText.toLowerCase().split(" ");
+                                    var matches = false;
+                                    words.map(function(word, index) {
+                                        if (word.startsWith(searchVal)) {
+                                            matches = true;
+                                        }
+                                    });
+                                    console.log(matches);
+                                    if (!matches) return;
+                                }
+                                html += "<a href=\"" + resource["Link"] + "\"><h2>" + resource["Company"] + "</h2></a>";
+                                if (resource["Category/Subject"] != undefined && 
+                                        resource["Category/Subject"].trim() != "") {
+                                    html += "<b>Category/Subject</b> &nbsp;&nbsp" + 
+                                                resource["Category/Subject"] + "<br />";
+                                }
+                                if (resource["Grade/Age Group"] != undefined &&
+                                    resource["Grade/Age Group"].trim() != "") {
+                                    html += "<b>Grade/Age Group</b> &nbsp;&nbsp" + 
+                                                resource["Grade/Age Group"] + "<br />";
+                                }
+                                html += resource["Description"] + "<br />";
+                                html += "<b>Link</b> &nbsp;&nbsp" + 
+                                    "<a href=\"" + resource["Link"] + "\">" + resource["Link"] + "</a><br />"; 
+                                html += "<b>Free Service Offered</b> &nbsp;&nbsp" + 
+                                    resource["Free Service Offered"] + "<br /><br />";
+                            });
+                            element.innerHTML = html;
+                        }
+                        if (window.allResources) {
+                            console.log("stuff");
+                            setCurrentList();
+                        } else {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('get', 'AmazingMathResouces.csv');
+                            xhr.onload = function() {
+                                if (this.readyState === 4) {
+                                    if (this.status == 200) {
+                                    try {
+                                        window.allResources = Papa.parse(this.responseText, {header: true});
+                                        setCurrentList();
+                                    } catch (e) {
+                                        console.log(e);
+                                        alert("error reading resource list: " + this.responsetext);
+                                    }
+                                    } else {
+                                        alert(this.responsetext);
+                                    }
+                                } else {
+                                    // ignore other events for request still in progress
+                                }
+                            };
+                            xhr.send();
+                        }
+                    }
+                </script>
 	</head>
-	<body>
+	<body onload="onLoad()">
 
 		<!-- Header -->
 			<header id="header">
@@ -40,86 +111,13 @@
 		<!-- One -->
 			<section id="one">
 				<div class="inner">
-					<header>
-						<h2>Magna Etiam Lorem</h2>
-					</header>
-					<p>Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula. Integer adipiscin sem. Nullam quis massa sit amet nibh viverra malesuada. Nunc sem lacus, accumsan quis, faucibus non, congue vel, arcu, erisque hendrerit tellus. Integer sagittis. Vivamus a mauris eget arcu gravida tristique. Nunc iaculis mi in ante.</p>
-					<ul class="actions">
-						<li><a href="#" class="button alt">Learn More</a></li>
-					</ul>
-				</div>
-			</section>
-
-		<!-- Two -->
-			<section id="two">
+                                    <h2>Have Suggestions for Materials to Add?</h2>
+                                    <h3>Search <input type="text" id="searchBox" onchange="onLoad()"/></h3>
+                                </div>
 				<div class="inner">
-					<article>
-						<div class="content">
-							<header>
-								<h3>Pellentesque adipis</h3>
-							</header>
-							<div class="image fit">
-								<img src="images/pic01.jpg" alt="" />
-							</div>
-							<p>Cumsan mollis eros. Pellentesque a diam sit amet mi magna ullamcorper vehicula. Integer adipiscin sem. Nullam quis massa sit amet lorem ipsum feugiat tempus.</p>
-						</div>
-					</article>
-					<article class="alt">
-						<div class="content">
-							<header>
-								<h3>Morbi interdum mol</h3>
-							</header>
-							<div class="image fit">
-								<img src="images/pic02.jpg" alt="" />
-							</div>
-							<p>Cumsan mollis eros. Pellentesque a diam sit amet mi magna ullamcorper vehicula. Integer adipiscin sem. Nullam quis massa sit amet lorem ipsum feugiat tempus.</p>
-						</div>
-					</article>
+					<p id="resourceList">Loading List of Resources...</p>
 				</div>
 			</section>
-
-		<!-- Three -->
-			<section id="three">
-				<div class="inner">
-					<article>
-						<div class="content">
-							<span class="icon fa-laptop"></span>
-							<header>
-								<h3>Tempus Feugiat</h3>
-							</header>
-							<p>Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna lorem ullamcorper laoreet, lectus arcu.</p>
-							<ul class="actions">
-								<li><a href="#" class="button alt">Learn More</a></li>
-							</ul>
-						</div>
-					</article>
-					<article>
-						<div class="content">
-							<span class="icon fa-diamond"></span>
-							<header>
-								<h3>Aliquam Nulla</h3>
-							</header>
-							<p>Ut convallis, sem sit amet interdum consectetuer, odio augue aliquam leo, nec dapibus tortor nibh sed.</p>
-							<ul class="actions">
-								<li><a href="#" class="button alt">Learn More</a></li>
-							</ul>
-						</div>
-					</article>
-					<article>
-					<div class="content">
-							<span class="icon fa-laptop"></span>
-							<header>
-								<h3>Sed Magna</h3>
-							</header>
-							<p>Suspendisse mauris. Fusce accumsan mollis eros. Pellentesque a diam sit amet mi ullamcorper vehicula.</p>
-							<ul class="actions">
-								<li><a href="#" class="button alt">Learn More</a></li>
-							</ul>
-						</div>
-					</article>
-				</div>
-			</section>
-
 		<!-- Footer -->
 			<section id="footer">
 				<div class="inner">
