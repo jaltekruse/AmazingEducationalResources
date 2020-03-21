@@ -17,26 +17,40 @@
                             var element = document.getElementById("resourceList");
                             var html = "";
                             var searchVal = document.getElementById("searchBox").value;
-                            searchVal = searchVal.toLowerCase();
-                            allResources.data.map(function(resource, index) {
-                                if (searchVal.trim() != "") {
+                            searchVal = searchVal.toLowerCase().trim();
+                            var allMatching;
+                            var topMatches = [];
+                            var otherMatches = [];
+                            if (searchVal.trim() != "") {
+                                allResources.data.map(function(resource, index) {
                                     var allText = resource["Category/Subject"] + " " +
                                         resource["Grade/Age Group"] + " " +
                                         resource["Description"] + " " +
                                         resource["Company"] + " " +
                                         resource["Free Service Offered"];
-                                    console.log(allText);
-                                    var words = allText.toLowerCase().split(" ");
-                                    var matches = false;
-                                    console.log(words);
-                                    words.map(function(word, index) {
-                                        if (word.startsWith(searchVal)) {
-                                            matches = true;
+                                    // first do a check for the whole search string
+                                    allText = allText.toLowerCase();
+                                    if (allText.includes(searchVal)) {
+                                        console.log(resource);
+                                        topMatches.push(resource);
+                                    } else {
+                                        var words = allText.split(" ");
+                                        var matches = false;
+                                        words.map(function(word, index) {
+                                            if (word.startsWith(searchVal)) {
+                                                matches = true;
+                                            }
+                                        });
+                                        if (matches) {
+                                            otherMatches.push(resource);
                                         }
-                                    });
-                                    console.log(matches);
-                                    if (!matches) return;
-                                }
+                                    }
+                                });
+                                allMatching = topMatches.concat(otherMatches);
+                            } else {
+                                allMatching = allResources.data;
+                            }
+                            allMatching.map(function(resource, index) {
                                 html += "<a href=\"" + resource["Link"] + "\"><h2>" + resource["Company"] + "</h2></a>";
                                 if (resource["Category/Subject"] != undefined && 
                                         resource["Category/Subject"].trim() != "") {
@@ -114,7 +128,12 @@
 			<section id="one">
 				<div class="inner">
                                     <h2>Have Suggestions for Materials to Add?</h2>
-                                    <h3>Search <input type="text" id="searchBox" onchange="onLoad()"/></h3>
+                                    <h3>
+                                        <form>
+                                        <input type="text" id="searchBox" onchange="onLoad()"/>
+                                        <input type="submit" value="Search" onsubmit="onLoad()"/>
+                                        </form>
+                                    </h3>
                                 </div>
 				<div class="inner">
 					<p id="resourceList">Loading List of Resources...</p>
