@@ -17,12 +17,19 @@
                             var element = document.getElementById("resourceList");
                             var html = "";
                             var searchVal = document.getElementById("searchBox").value;
+                            var alwaysFree = document.getElementById("alwaysFree").checked;	
                             searchVal = searchVal.toLowerCase().trim();
                             var allMatching;
                             var topMatches = [];
                             var otherMatches = [];
-                            if (searchVal.trim() != "") {
+                            if (searchVal.trim() != "" || alwaysFree) {
                                 allResources.data.map(function(resource, index) {
+				    if (alwaysFree &&
+					    !(resource["Free Service Offered"] != undefined &&
+						resource["Free Service Offered"]
+						    .toLowerCase().includes("always free"))) {
+					return;
+				    }
                                     var allText = resource["Category/Subject"] + " " +
                                         resource["Grade/Age Group"] + " " +
                                         resource["Description"] + " " +
@@ -31,7 +38,6 @@
                                     // first do a check for the whole search string
                                     allText = allText.toLowerCase();
                                     if (allText.includes(searchVal)) {
-                                        console.log(resource);
                                         topMatches.push(resource);
                                     } else {
                                         var words = allText.split(" ");
@@ -71,7 +77,6 @@
                             element.innerHTML = html;
                         }
                         if (window.allResources) {
-                            console.log("stuff");
                             setCurrentList();
                         } else {
                             var xhr = new XMLHttpRequest();
@@ -130,8 +135,9 @@
                                     <h2>Have Suggestions for Materials to Add?</h2>
                                     <h3>
 					 <div class="6u 12u$(small)">
-					       <input type="checkbox" name="alwaysFree" id="alwaysFree" />
-					       <label for="copy">Always Free</label>
+					       <input type="checkbox" name="alwaysFree"
+							id="alwaysFree" onchange="onLoad()"/>
+					       <label for="alwaysFree">Always Free</label>
 					</div>
 
                                         <input type="text" id="searchBox" onchange="onLoad()"/>
