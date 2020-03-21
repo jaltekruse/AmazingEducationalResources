@@ -17,6 +17,7 @@
                             var element = document.getElementById("resourceList");
                             var html = "";
                             var searchVal = document.getElementById("searchBox").value;
+                            searchVal = searchVal.toLowerCase();
                             allResources.data.map(function(resource, index) {
                                 if (searchVal.trim() != "") {
                                     var allText = resource["Category/Subject"] + " " +
@@ -27,6 +28,7 @@
                                     console.log(allText);
                                     var words = allText.toLowerCase().split(" ");
                                     var matches = false;
+                                    console.log(words);
                                     words.map(function(word, index) {
                                         if (word.startsWith(searchVal)) {
                                             matches = true;
