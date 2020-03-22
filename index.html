@@ -57,35 +57,42 @@
 						    .toLowerCase().includes(level.toLowerCase()))) {
 					return;
 				    }
-                                    var allText = resource["Category/Subject"] + " " +
-                                        resource["Grade/Age Group"] + " " +
-                                        resource["Description"] + " " +
-                                        resource["Company"] + " " +
-                                        resource["Free Service Offered"];
-                                    // first do a check for the whole search string
-                                    allText = allText.toLowerCase()
-                                        .replace(",", " ")
-                                        .replace("/", " ")
-                                        .replace(";", " ");
-                                    if (allText.includes(searchVal)) {
-                                        topMatches.push(resource);
-                                    } else {
-                                        var words = allText.split(" ");
-                                        var matches = false;
-                                        words.map(function(word, index) {
-                                            searchTerms.map(function(term, index) {
-                                                if(term == '') {
-                                                    return;
-                                                }
-                                                if (word.trim().startsWith(term)) {
-                                                    matches = true;
-                                                }
-                                            });
-                                        });
-                                        if (matches) {
-                                            otherMatches.push(resource);
+                                    var searchSomeText = function(toSearch, searchVal) {
+                                        if (toSearch == undefined) {
+                                            return;
                                         }
+                                        // first do a check for the whole search string
+                                        toSearch = toSearch.toLowerCase()
+                                            .replace(",", " ")
+                                            .replace("/", " ")
+                                            .replace(";", " ");
+                                        if (toSearch.includes(searchVal)) {
+                                            topMatches.push(resource);
+                                        } else {
+                                            // do a prefix match on the individual words in the search
+                                            var words = toSearch.split(" ");
+                                            var matches = false;
+                                            words.map(function(word, index) {
+                                                searchTerms.map(function(term, index) {
+                                                    if(term == '') {
+                                                        return;
+                                                    }
+                                                    if (word.trim().startsWith(term)) {
+                                                        matches = true;
+                                                    }
+                                                });
+                                            });
+                                            if (matches) {
+                                                otherMatches.push(resource);
+                                            }
+                                        }
+
                                     }
+                                    searchSomeText(resource["Category/Subject"], searchVal);
+                                    searchSomeText(resource["Grade/Age Group"], searchVal);
+                                    searchSomeText(resource["Description"], searchVal);
+                                    searchSomeText(resource["Company"], searchVal);
+                                    searchSomeText(resource["Free Service Offered"], searchVal);
                                 });
                                 allMatching = topMatches.concat(otherMatches);
                             } else {
