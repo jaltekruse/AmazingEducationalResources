@@ -109,8 +109,11 @@
 
                                     searchSomeText(allText, searchVal);
                                 });
-                                console.log("last top match: " + topMatches[topMatches.length - 1]["Company"]);
-                                console.log("first other Matche: " + otherMatches[0]["Company"]);
+                                console.log("last top match: " + 
+                                    (topMatches[topMatches.length - 1] ? 
+                                        topMatches[topMatches.length - 1]["Company"] : "none"));
+                                console.log("first other Matches: " + 
+                                    (otherMatches[0] ? otherMatches[0]["Company"] : "none"));
                                 allMatching = topMatches.concat(otherMatches);
                             } else {
                                 allMatching = allResources.data;
