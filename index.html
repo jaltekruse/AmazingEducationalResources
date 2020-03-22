@@ -61,6 +61,7 @@
                                         if (toSearch == undefined) {
                                             return;
                                         }
+                                        searchVal = " " + searchVal.trim() + " ";
                                         // first do a check for the whole search string
                                         toSearch = toSearch.toLowerCase()
                                             .replace(",", " ")
@@ -88,11 +89,25 @@
                                         }
 
                                     }
-                                    searchSomeText(resource["Category/Subject"], searchVal);
-                                    searchSomeText(resource["Grade/Age Group"], searchVal);
-                                    searchSomeText(resource["Description"], searchVal);
-                                    searchSomeText(resource["Company"], searchVal);
-                                    searchSomeText(resource["Free Service Offered"], searchVal);
+                                    // the use of one space at the begging and end and two between the sections
+                                    // is deliberate, it allows doing full exact matching on terms, by just doing
+                                    // a simple substring search for " searchString ", but for multi-word searches
+                                    // it won't match if description right next to company happens to produce the
+                                    // search term, the extra space between the different strings helps here
+                                    // example:
+                                    // Description - give away free materials
+                                    // company - science materials R US
+                                    // if description and company were put together with a single space, doing
+                                    // a substring for "materials science" would return this as a top result
+                                    // this is not desired
+                                    var twoSpaces = "  ";
+                                    var allText = " " + resource["Category/Subject"] + twoSpaces +
+                                        resource["Grade/Age Group"] + twoSpaces +
+                                        resource["Description"] + twoSpaces +
+                                        resource["Company"] + twoSpaces +
+                                        resource["Free Service Offered"] + " ";
+
+                                    searchSomeText(allText, searchVal);
                                 });
                                 allMatching = topMatches.concat(otherMatches);
                             } else {
