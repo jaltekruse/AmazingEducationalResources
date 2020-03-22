@@ -21,10 +21,8 @@
                             var alwaysFree = document.getElementById("alwaysFree").checked;	
                             var subject = document.getElementById("subjectValue").value;
                             var level = document.getElementById("levelValue").value;	
-			    console.log(subject);
-			    console.log(level);
-                            searchVal = searchVal.toLowerCase().trim() + " " + subject.toLowerCase();
-                            searchVal = searchVal.trim();
+                            searchVal = searchVal.toLowerCase().trim();
+
                             var allMatching;
                             var topMatches = [];
                             var otherMatches = [];
@@ -58,8 +56,8 @@
 					return;
 				    }
                                     var searchSomeText = function(toSearch, searchVal) {
-                                        if (toSearch == undefined) {
-                                            return;
+                                        if (toSearch == undefined || searchVal.trim() == "") {
+                                            return false;
                                         }
                                         searchVal = " " + searchVal.toLowerCase().trim() + " ";
                                         // first do a check for the whole search string
@@ -69,6 +67,7 @@
                                             .replace(/;/g, ' ');
                                         if (toSearch.includes(searchVal)) {
                                             topMatches.push(resource);
+                                            return true;
                                         } else {
                                             // do a prefix match on the individual words in the search
                                             var words = toSearch.split(" ");
@@ -85,6 +84,9 @@
                                             });
                                             if (matches) {
                                                 otherMatches.push(resource);
+                                                return true;
+                                            } else {
+                                                return false;
                                             }
                                         }
 
@@ -107,7 +109,10 @@
                                         resource["Company"] + twoSpaces +
                                         resource["Free Service Offered"] + " ";
 
-                                    searchSomeText(allText, searchVal);
+                                    var matched = searchSomeText(allText, searchVal);
+                                    if (!matched) {
+                                        matched = searchSomeText(allText, subject);
+                                    }
                                 });
                                 console.log("last top match: " + 
                                     (topMatches[topMatches.length - 1] ? 
