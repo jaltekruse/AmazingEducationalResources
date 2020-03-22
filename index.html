@@ -24,7 +24,11 @@
                             searchVal = searchVal.toLowerCase().trim();
 
                             var allMatching;
+                            // exactly matched whole search string
+                            var veryTopMatches = [];
+                            // exactly matched subject name
                             var topMatches = [];
+                            // match (including prefix match) on one or more words in search string
                             var otherMatches = [];
                             if (searchVal.trim() != "" || alwaysFree || subject || level) {
                                 searchTerms = searchVal.split(" ");
@@ -55,7 +59,7 @@
 						    .toLowerCase().includes(level.toLowerCase()))) {
 					return;
 				    }
-                                    var searchSomeText = function(toSearch, searchVal) {
+                                    var searchSomeText = function(toSearch, searchVal, topMatches) {
                                         if (toSearch == undefined || searchVal.trim() == "") {
                                             return false;
                                         }
@@ -109,9 +113,9 @@
                                         resource["Company"] + twoSpaces +
                                         resource["Free Service Offered"] + " ";
 
-                                    var matched = searchSomeText(allText, searchVal);
+                                    var matched = searchSomeText(allText, searchVal, veryTopMatches);
                                     if (!matched) {
-                                        matched = searchSomeText(allText, subject);
+                                        matched = searchSomeText(allText, subject, topMatches);
                                     }
                                 });
                                 console.log("last top match: " + 
@@ -119,7 +123,7 @@
                                         topMatches[topMatches.length - 1]["Company"] : "none"));
                                 console.log("first other Matches: " + 
                                     (otherMatches[0] ? otherMatches[0]["Company"] : "none"));
-                                allMatching = topMatches.concat(otherMatches);
+                                allMatching = veryTopMatches.concat(topMatches.concat(otherMatches));
                             } else {
                                 allMatching = allResources.data;
                             }
