@@ -61,12 +61,12 @@
                                         if (toSearch == undefined) {
                                             return;
                                         }
-                                        searchVal = " " + searchVal.trim() + " ";
+                                        searchVal = " " + searchVal.toLowerCase().trim() + " ";
                                         // first do a check for the whole search string
                                         toSearch = toSearch.toLowerCase()
-                                            .replace(",", " ")
-                                            .replace("/", " ")
-                                            .replace(";", " ");
+                                            .replace(/,/g, ' ')
+                                            .replace(/\//g, ' ')
+                                            .replace(/;/g, ' ');
                                         if (toSearch.includes(searchVal)) {
                                             topMatches.push(resource);
                                         } else {
@@ -109,6 +109,8 @@
 
                                     searchSomeText(allText, searchVal);
                                 });
+                                console.log("last top match: " + topMatches[topMatches.length - 1]["Company"]);
+                                console.log("first other Matche: " + otherMatches[0]["Company"]);
                                 allMatching = topMatches.concat(otherMatches);
                             } else {
                                 allMatching = allResources.data;
