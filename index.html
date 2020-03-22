@@ -18,9 +18,9 @@
                             var element = document.getElementById("resourceList");
                             var html = "";
                             var searchVal = document.getElementById("searchBox").value;
-                            var alwaysFree = document.getElementById("alwaysFree").checked;	
+                            var alwaysFree = document.getElementById("alwaysFree").checked;
                             var subject = document.getElementById("subjectValue").value;
-                            var level = document.getElementById("levelValue").value;	
+                            var level = document.getElementById("levelValue").value;
                             searchVal = searchVal.toLowerCase().trim();
 
                             var allMatching;
@@ -32,7 +32,7 @@
                             var otherMatches = [];
                             if (searchVal.trim() != "" || alwaysFree || subject || level) {
                                 searchTerms = searchVal.split(" ");
-                                searchTerms = searchTerms.map(function(e) { 
+                                searchTerms = searchTerms.map(function(e) {
                                     return e.trim();
                                 });
                                 allResources.data.map(function(resource, index) {
@@ -118,10 +118,10 @@
                                         matched = searchSomeText(allText, subject, topMatches);
                                     }
                                 });
-                                console.log("last top match: " + 
-                                    (topMatches[topMatches.length - 1] ? 
+                                console.log("last top match: " +
+                                    (topMatches[topMatches.length - 1] ?
                                         topMatches[topMatches.length - 1]["Company"] : "none"));
-                                console.log("first other Matches: " + 
+                                console.log("first other Matches: " +
                                     (otherMatches[0] ? otherMatches[0]["Company"] : "none"));
                                 allMatching = veryTopMatches.concat(topMatches.concat(otherMatches));
                             } else {
@@ -137,20 +137,20 @@
                                     resource["Link"] = "http://" + resource["Link"];
                                 }
                                 html += "<a href=\"" + resource["Link"]
-                                    + "\" style=\"max-width:100%;text-overflow: ellipsis\"><h2>" 
+                                    + "\" style=\"max-width:100%;text-overflow: ellipsis\"><h2>"
                                     + resource["Company"] + "</h2></a>";
-                                if (resource["Category/Subject"] != undefined && 
+                                if (resource["Category/Subject"] != undefined &&
                                         resource["Category/Subject"].trim() != "") {
-                                    html += "<b>Category/Subject</b> &nbsp;&nbsp" + 
+                                    html += "<b>Category/Subject</b> &nbsp;&nbsp" +
                                                 resource["Category/Subject"] + "<br />";
                                 }
                                 if (resource["Grade/Age Group"] != undefined &&
                                     resource["Grade/Age Group"].trim() != "") {
-                                    html += "<b>Grade/Age Group</b> &nbsp;&nbsp" + 
+                                    html += "<b>Grade/Age Group</b> &nbsp;&nbsp" +
                                                 resource["Grade/Age Group"] + "<br />";
                                 }
                                 html += resource["Description"] + "<br />";
-                                html += "<b>Free Service Offered</b> &nbsp;&nbsp" + 
+                                html += "<b>Free Service Offered</b> &nbsp;&nbsp" +
                                     resource["Free Service Offered"] + "<br /><br />";
                             });
                             if (html == '') {
@@ -199,7 +199,7 @@
 			</header>
 			<a href="#menu" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 
-		<!-- Banner 
+		<!-- Banner
 			<section id="banner">
 				<div class="inner">
 					<h1>Introspect: <span>A free + fully responsive<br />
@@ -275,9 +275,9 @@
 					</header>
 
 					<div class="copyright">
-						&copy; Amazing Educational Resources - 
+						&copy; Amazing Educational Resources -
 						<a href="https://templated.co/introspect">
-						Based on templated.co Introspect site template</a>. 
+						Based on templated.co Introspect site template</a>.
 					</div>
 				</div>
 			</section>
