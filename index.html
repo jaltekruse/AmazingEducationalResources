@@ -144,6 +144,9 @@
                                 html += "<b>Free Service Offered</b> &nbsp;&nbsp" + 
                                     resource["Free Service Offered"] + "<br /><br />";
                             });
+                            if (html == '') {
+                                html = "No matches found for search";
+                            }
                             element.innerHTML = html;
                         }
                         if (window.allResources) {
