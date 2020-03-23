@@ -68,6 +68,7 @@
                                         toSearch = toSearch.toLowerCase()
                                             .replace(/,/g, ' ')
                                             .replace(/\//g, ' ')
+                                            .replace(/\./g, ' ')
                                             .replace(/;/g, ' ');
                                         if (toSearch.includes(searchVal)) {
                                             topMatches.push(resource);
