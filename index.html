@@ -70,7 +70,10 @@
                                             .replace(/\//g, ' ')
                                             .replace(/\./g, ' ')
                                             .replace(/&/g, ' ')
+                                            // most people use subtraction as dash
                                             .replace(/-/g, ' ')
+                                            // proper dash character
+                                            .replace(/–/g, ' ')
                                             .replace(/;/g, ' ');
                                         if (toSearch.includes(searchVal)) {
                                             topMatches.push(resource);
