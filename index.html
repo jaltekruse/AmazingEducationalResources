@@ -30,7 +30,7 @@
                             var topMatches = [];
                             // match (including prefix match) on one or more words in search string
                             var otherMatches = [];
-                            if (searchVal.trim() != "" || alwaysFree || subject || level) {
+                            if (searchVal.trim() != "" || alwaysFree || subject || level || alwaysFree) {
                                 searchTerms = searchVal.split(" ");
                                 searchTerms = searchTerms.map(function(e) {
                                     return e.trim();
@@ -61,7 +61,8 @@
 				    }
                                     var searchSomeText = function(toSearch, searchVal, topMatches) {
                                         if (toSearch == undefined || searchVal.trim() == "") {
-                                            return false;
+                                            otherMatches.push(resource);
+                                            return true;
                                         }
                                         searchVal = " " + searchVal.toLowerCase().trim() + " ";
                                         // first do a check for the whole search string
