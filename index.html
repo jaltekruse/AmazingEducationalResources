@@ -61,8 +61,7 @@
 				    }
                                     var searchSomeText = function(toSearch, searchVal, topMatches) {
                                         if (toSearch == undefined || searchVal.trim() == "") {
-                                            otherMatches.push(resource);
-                                            return true;
+                                            return false;
                                         }
                                         searchVal = " " + searchVal.toLowerCase().trim() + " ";
                                         // first do a check for the whole search string
@@ -85,7 +84,7 @@
                                             var matches = false;
                                             words.map(function(word, index) {
                                                 searchTerms.map(function(term, index) {
-                                                    if(term == '') {
+                                                    if(term == '' || word.trim() == '') {
                                                         return;
                                                     }
                                                     if (word.trim().startsWith(term)) {
@@ -120,14 +119,26 @@
                                         resource["Company"] + twoSpaces +
                                         resource["Free Service Offered"] + " ";
 
+
                                     var matched = false;
+                                    // if someone typed in the box
                                     if (!(searchVal == undefined || searchVal.trim() == "")) {
                                         matched = searchSomeText(allText, searchVal, veryTopMatches);
+                                    } else if (subject == undefined || subject.trim() == "") {
+                                        // if nothing was typed in the box, or provided as a subject
+                                        // then we got down here because always free or grade level was
+                                        // provided and we already passed that filter
+                                        otherMatches.push(resource);
+                                        matches = true;
                                     }
+                                    // if we haven't already matched, run a search for the subject
                                     if (!matched) {
                                         matched = searchSomeText(allText, subject, topMatches);
                                     }
                                 });
+                                console.log("last very top match: " +
+                                    (veryTopMatches[veryTopMatches.length - 1] ?
+                                        veryTopMatches[veryTopMatches.length - 1]["Company"] : "none"));
                                 console.log("last top match: " +
                                     (topMatches[topMatches.length - 1] ?
                                         topMatches[topMatches.length - 1]["Company"] : "none"));
