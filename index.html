@@ -13,6 +13,11 @@
                 <script type="text/javascript" src="papaparse.min.js"></script>
                 <meta name="viewport" content="width=624">
                 <script type="text/javascript">
+                    function startsWith(str, maybePrefix) {
+                        //https://stackoverflow.com/a/4579228
+                        return str.lastIndexOf(maybePrefix, 0) === 0
+                    }
+
                     function onLoad() {
                         var setCurrentList = function() {
                             var element = document.getElementById("resourceList");
@@ -98,7 +103,7 @@
                                                     if(word.trim() == '') {
                                                         continue;
                                                     }
-                                                    if (word.trim().startsWith(term)) {
+                                                    if (startsWith(word, term)) {
                                                         numMatches++;
                                                         matches = true;
                                                         continue terms;
@@ -176,8 +181,8 @@
                                 if (!resource["Link"]) {
                                     return;
                                 }
-                                if (! (resource["Link"].startsWith("http://") ||
-                                       resource["Link"].startsWith("https://"))
+                                if (! (startsWith(resource["Link"], "http://") ||
+                                       startsWith(resource["Link"], "https://"))
                                 ) {
                                     resource["Link"] = "http://" + resource["Link"];
                                 }
