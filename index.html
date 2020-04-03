@@ -37,7 +37,7 @@
                                     return e.trim();
                                 });
                                 allResources.data.map(function(resource, index) {
-                                    if (veryTopMatches.length + topMatches.length + otherMatches.length > 299) {
+                                    if (veryTopMatches.length + topMatches.length + otherMatches.length > 399) {
                                         hitDisplayLimit = true;
                                         return;
                                     }
@@ -154,8 +154,8 @@
                                 allMatching = allResources.data;
                             }
                             console.log(allMatching.length);
-                            if (allMatching.length > 300) {
-                                allMatching = allMatching.slice(0,300);
+                            if (allMatching.length > 400) {
+                                allMatching = allMatching.slice(0,400);
                                 hitDisplayLimit = true;
                             }
                             allMatching.map(function(resource, index) {
@@ -185,7 +185,7 @@
                                     resource["Free Service Offered"] + "<br /><br />";
                             });
                             if (hitDisplayLimit) {
-                                html += "<h2>Showing top 300 results, to see others perform a more specific search.</h2>";
+                                html += "<h2>Showing top 400 results, to see others perform a more specific search.</h2>";
                             }
                             if (html == '') {
                                 html = "No matches found for search";
