@@ -16,11 +16,17 @@
                     function onLoad() {
                         var setCurrentList = function() {
                             var element = document.getElementById("resourceList");
+                            element.innerHTML = "Loading seach results...";
+                            setTimeout(function() { doTheSearch(); }, 20);
+                        }
+                        var doTheSearch = function() {
+                            var element = document.getElementById("resourceList");
                             var html = "";
                             var searchVal = document.getElementById("searchBox").value;
                             var alwaysFree = document.getElementById("alwaysFree").checked;
                             var subject = document.getElementById("subjectValue").value;
                             var level = document.getElementById("levelValue").value;
+                            searchVal = searchVal + ' ' + subject;
                             searchVal = searchVal.toLowerCase().trim();
 
                             var allMatching;
@@ -80,24 +86,32 @@
                                             // proper dash character
                                             .replace(/–/g, ' ')
                                             .replace(/;/g, ' ');
-                                        if (toSearch.includes(searchVal)) {
+                                        if (false || toSearch.includes(searchVal)) {
                                             topMatches.push(resource);
                                             return true;
                                         } else {
                                             // do a prefix match on the individual words in the search
                                             var words = toSearch.split(" ");
                                             var matches = false;
-                                            words.map(function(word, index) {
-                                                searchTerms.map(function(term, index) {
-                                                    if(term == '' || word.trim() == '') {
-                                                        return;
+                                            var numMatches = 0;
+                                            var term;
+                                            terms: for (var i = 0; i < searchTerms.length; i++) {
+                                                term = searchTerms[i];
+                                                if (term.trim() == '') continue;
+                                                for (var j = 0; j < words.length; j++) {
+                                                    word = words[j];
+                                                    if(word.trim() == '') {
+                                                        continue;
                                                     }
                                                     if (word.trim().startsWith(term)) {
+                                                        numMatches++;
                                                         matches = true;
+                                                        continue terms;
                                                     }
-                                                });
-                                            });
+                                                }
+                                            }
                                             if (matches) {
+                                                resource.numMatches = numMatches;
                                                 otherMatches.push(resource);
                                                 return true;
                                             } else {
@@ -127,7 +141,8 @@
 
                                     var matched = false;
                                     // if someone typed in the box
-                                    if (!(searchVal == undefined || searchVal.trim() == "")) {
+                                    if (!(searchVal == undefined || searchVal.trim() == "") ||
+                                           !(subject == undefined || subject.trim() == "")) {
                                         matched = searchSomeText(allText, searchVal, veryTopMatches);
                                     } else if (subject == undefined || subject.trim() == "") {
                                         // if nothing was typed in the box, or provided as a subject
@@ -137,9 +152,9 @@
                                         matches = true;
                                     }
                                     // if we haven't already matched, run a search for the subject
-                                    if (!matched) {
-                                        matched = searchSomeText(allText, subject, topMatches);
-                                    }
+                                    //if (!matched) {
+                                    //    matched = searchSomeText(allText, searchVal + ' ' + subject, topMatches);
+                                    //}
                                 });
                                 console.log("last very top match: " +
                                     (veryTopMatches[veryTopMatches.length - 1] ?
@@ -149,6 +164,10 @@
                                         topMatches[topMatches.length - 1]["Company"] : "none"));
                                 console.log("first other Matches: " +
                                     (otherMatches[0] ? otherMatches[0]["Company"] : "none"));
+                                otherMatches = otherMatches.sort(function (a, b) {
+                                    return b.numMatches - a.numMatches;
+                                });
+
                                 allMatching = veryTopMatches.concat(topMatches.concat(otherMatches));
                             } else {
                                 allMatching = allResources.data;
