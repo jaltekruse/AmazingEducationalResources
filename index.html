@@ -13,23 +13,23 @@
                 <script type="text/javascript" src="papaparse.min.js"></script>
                 <meta name="viewport" content="width=624">
                 <script type="text/javascript">
-                    if (!String.prototype.includes) {
-                      String.prototype.includes = function(search, start) {
-                        'use strict';
-
-                        if (search instanceof RegExp) {
-                          throw TypeError('first argument must not be a RegExp');
-                        } 
-                        if (start === undefined) { start = 0; }
-                        return this.indexOf(search, start) !== -1;
-                      };
-                    }
                     function startsWith(str, maybePrefix) {
                         //https://stackoverflow.com/a/4579228
                         return str.lastIndexOf(maybePrefix, 0) === 0
                     }
 
                     function onLoad() {
+                        if (!String.prototype.includes) {
+                          String.prototype.includes = function(search, start) {
+                            'use strict';
+
+                            if (search instanceof RegExp) {
+                              throw TypeError('first argument must not be a RegExp');
+                            } 
+                            if (start === undefined) { start = 0; }
+                            return this.indexOf(search, start) !== -1;
+                          };
+                        }
                         var setCurrentList = function() {
                             var element = document.getElementById("resourceList");
                             var html = "";
