@@ -16,11 +16,6 @@
                     function onLoad() {
                         var setCurrentList = function() {
                             var element = document.getElementById("resourceList");
-                            element.innerHTML = "Loading seach results...";
-                            setTimeout(function() { doTheSearch(); }, 20);
-                        }
-                        var doTheSearch = function() {
-                            var element = document.getElementById("resourceList");
                             var html = "";
                             var searchVal = document.getElementById("searchBox").value;
                             var alwaysFree = document.getElementById("alwaysFree").checked;
@@ -346,7 +341,7 @@
                                         <input type="submit" value="Search" onsubmit="onLoad()" style="display:inline-block"/>
                                     </h3>
                                 </div>
-				<div class="inner" id="resourceList">
+				<div class="inner" id="resourceList" style="min-height:400px">
 					Loading List of Resources...
 				</div>
 			</section>
