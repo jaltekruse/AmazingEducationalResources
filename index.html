@@ -198,7 +198,8 @@
                                     resource["Link"] = "http://" + resource["Link"];
                                 }
                                 html += "<a href=\"" + resource["Link"]
-                                    + "\" style=\"max-width:100%;text-overflow: ellipsis\"><h2>"
+                                    + "\" style=\"white-space: pre-wrap; white-space: -moz-pre-wrap; "
+				    + "white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;\"><h2>"
                                     + resource["Company"] + "</h2></a>";
                                 if (resource["Category/Subject"] != undefined &&
                                         resource["Category/Subject"].trim() != "") {
